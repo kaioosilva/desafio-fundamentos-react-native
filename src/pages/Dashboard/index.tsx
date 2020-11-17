@@ -8,6 +8,7 @@ import { useCart } from '../../hooks/cart';
 import api from '../../services/api';
 
 import FloatingCart from '../../components/FloatingCart';
+import logoImg from "../../assets/logo.png";
 
 import {
   Container,
@@ -35,7 +36,9 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadProducts(): Promise<void> {
-      // TODO
+      const result = await api.get('/products')
+
+      setProducts(result.data);
     }
 
     loadProducts();
@@ -43,10 +46,12 @@ const Dashboard: React.FC = () => {
 
   function handleAddToCart(item: Product): void {
     // TODO
+    addToCart(item);
   }
 
   return (
     <Container>
+      <Image source={logoImg} />
       <ProductContainer>
         <ProductList
           data={products}
@@ -57,6 +62,7 @@ const Dashboard: React.FC = () => {
           }}
           renderItem={({ item }) => (
             <Product>
+              {console.log(item.image_url)}
               <ProductImage source={{ uri: item.image_url }} />
               <ProductTitle>{item.title}</ProductTitle>
               <PriceContainer>
